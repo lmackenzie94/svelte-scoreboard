@@ -1,6 +1,5 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
+  import { storedPlayers } from "./stores.js";
 
   export let name;
   export let points;
@@ -9,8 +8,12 @@
   const addPoint = () => (points += 1);
   const removePoint = () => (points -= 1);
   const toggleControls = () => (showControls = !showControls);
+
   const deletePlayer = () => {
-    dispatch("deleteplayer", name);
+    storedPlayers.update(existing => {
+      let allPlayers = existing.filter(player => player.name !== name);
+      return allPlayers;
+    });
   };
 </script>
 
@@ -18,7 +21,6 @@
   h1 {
     color: #204f6e;
   }
-
   h3 {
     margin-bottom: 10px;
   }
