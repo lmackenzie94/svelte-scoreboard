@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { storedPlayers } from "./stores.js";
 
   const dispatch = createEventDispatcher();
 
@@ -8,15 +9,22 @@
     points: 0
   };
 
+  // const onSubmit = () => {
+  //   // e.preventDefault(); instead, use preventDefault event modifier
+  //   // creating an event 'addplayer' that will dispatch the player data
+  //   dispatch("addplayer", player);
+  //   // reset
+  //   player = {
+  //     name: "",
+  //     points: 0
+  //   };
+  // };
+
   const onSubmit = () => {
-    // e.preventDefault(); instead, use preventDefault event modifier
-    // creating an event 'addplayer' that will dispatch the player data
-    dispatch("addplayer", player);
-    // reset
-    player = {
-      name: "",
-      points: 0
-    };
+    storedPlayers.update(existing => {
+      let allPlayers = [...existing, player];
+      return allPlayers;
+    });
   };
 </script>
 
